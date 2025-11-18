@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Global Calling Hours Dashboard</title>
+    <style>
+        body { 
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #e5e5e5; 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            margin: 0;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        h1 { text-align: center; color: #c2661f; margin-bottom: 30px; font-size: 36px; }
+        
+        .home-selector {
+            text-align: center;
+            background: #262626;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            border: 1px solid #404040;
+        }
+        
+        .home-time {
+            font-size: 32px;
+            font-family: monospace;
+            color: #c2661f;
+            margin: 15px 0;
+        }
+        
+        select {
+            padding: 12px 16px;
+            background: #2a2a2a;
+            color: #e5e5e5;
+            border: 1px solid #404040;
+            border-radius: 8px;
+            font-size: 16px;
+            min-width: 350px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: #c2661f;
+        }
+        
+        .country-section {
+            margin-bottom: 40px;
+        }
+        
+        .country-title {
+            font-size: 28px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #404040;
+        }
+        
+        .us-title { color: #34d399; }
+        .au-title { color: #fbbf24; }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 16px;
+        }
+        
+        .timezone-card {
+            background: #262626;
+            border: 1px solid #404040;
+            padding: 20px;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+        
+        .good-call {
+            border-color: #34d399;
+            background: #1f2937;
+        }
+        
+        .outside-hours {
+            border-color: #f87171;
+            background: #1f2937;
+        }
+        
+        .location-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #f5f5f5;
+            margin-bottom: 5px;
+        }
+        
+        .timezone-code {
+            font-size: 13px;
+            opacity: 0.7;
+            color: #a3a3a3;
+            margin-bottom: 10px;
+        }
+        
+        .time {
+            font-size: 24px;
+            font-family: monospace;
+            margin: 10px 0;
+            color: #f5f5f5;
+        }
+        
+        .calling-window {
+            font-size: 14px;
+            color: #a3a3a3;
+            margin-bottom: 10px;
+        }
+        
+        .status {
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .status-good {
+            background: #10b981;
+            color: white;
+        }
+        
+        .status-outside {
+            background: #ef4444;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📞 Global Calling Hours Dashboard</h1>
+        
+        <div class="home-selector">
+            <h3>🏠 Select Your Home Location</h3>
+            <select id="homeLocation">
+                <option value="Europe/London|London, England">🇬🇧 London, England</option>
+                <option value="America/New_York|New York, NY">🇺🇸 New York, NY</option>
+                <option value="America/Los_Angeles|Los Angeles, CA">🇺🇸 Los Angeles, CA</option>
+                <option value="America/Chicago|Chicago, IL">🇺🇸 Chicago, IL</option>
+                <option value="America/Phoenix|Phoenix, AZ">🇺🇸 Phoenix, AZ</option>
+                <option value="America/Denver|Denver, CO">🇺🇸 Denver, CO</option>
+                <option value="America/Anchorage|Anchorage, AK">🇺🇸 Anchorage, AK</option>
+                <option value="Pacific/Honolulu|Honolulu, HI">🇺🇸 Honolulu, HI</option>
+                <option value="America/New_York|Atlanta, GA">🇺🇸 Atlanta, GA</option>
+                <option value="America/New_York|Miami, FL">🇺🇸 Miami, FL</option>
+                <option value="America/Chicago|Dallas, TX">🇺🇸 Dallas, TX</option>
+                <option value="America/Chicago|Houston, TX">🇺🇸 Houston, TX</option>
+                <option value="America/Los_Angeles|San Francisco, CA">🇺🇸 San Francisco, CA</option>
+                <option value="America/Los_Angeles|Seattle, WA">🇺🇸 Seattle, WA</option>
+                <option value="America/New_York|Boston, MA">🇺🇸 Boston, MA</option>
+                <option value="America/Toronto|Toronto, ON">🇨🇦 Toronto, ON</option>
+                <option value="America/Vancouver|Vancouver, BC">🇨🇦 Vancouver, BC</option>
+                <option value="America/Montreal|Montreal, QC">🇨🇦 Montreal, QC</option>
+                <option value="America/Edmonton|Calgary, AB">🇨🇦 Calgary, AB</option>
+                <option value="America/Winnipeg|Winnipeg, MB">🇨🇦 Winnipeg, MB</option>
+                <option value="America/Halifax|Halifax, NS">🇨🇦 Halifax, NS</option>
+                <option value="Australia/Sydney|Sydney, NSW">🇦🇺 Sydney, NSW</option>
+                <option value="Australia/Melbourne|Melbourne, VIC">🇦🇺 Melbourne, VIC</option>
+                <option value="Australia/Brisbane|Brisbane, QLD">🇦🇺 Brisbane, QLD</option>
+                <option value="Australia/Adelaide|Adelaide, SA">🇦🇺 Adelaide, SA</option>
+                <option value="Australia/Perth|Perth, WA">🇦🇺 Perth, WA</option>
+                <option value="Europe/Paris|Paris, France">🇫🇷 Paris, France</option>
+                <option value="Europe/Berlin|Berlin, Germany">🇩🇪 Berlin, Germany</option>
+                <option value="Asia/Tokyo|Tokyo, Japan">🇯🇵 Tokyo, Japan</option>
+                <option value="Asia/Singapore|Singapore">🇸🇬 Singapore</option>
+                <option value="Asia/Dubai|Dubai, UAE">🇦🇪 Dubai, UAE</option>
+            </select>
+            
+            <div class="home-time" id="homeTime">Your Time: --:--:--</div>
+            <div id="homeLocationDisplay">📍 Select your location above</div>
+        </div>
+        
+        <!-- US Section -->
+        <div class="country-section">
+            <h2 class="country-title us-title">🇺🇸 United States - When You Can Call</h2>
+            <div class="grid" id="us-zones"></div>
+        </div>
+        
+        <!-- Australia Section -->
+        <div class="country-section">
+            <h2 class="country-title au-title">🇦🇺 Australia - When You Can Call</h2>
+            <div class="grid" id="au-zones"></div>
+        </div>
+    </div>
+
+    <script>
+        let homeTimezone = 'Europe/London';
+        let homeLocationName = 'London, England';
+        
+        const usZones = [
+            { name: 'New York, NY', zone: 'America/New_York', code: 'EST/EDT' },
+            { name: 'Los Angeles, CA', zone: 'America/Los_Angeles', code: 'PST/PDT' },
+            { name: 'Chicago, IL', zone: 'America/Chicago', code: 'CST/CDT' },
+            { name: 'Phoenix, AZ', zone: 'America/Phoenix', code: 'MST' },
+            { name: 'Denver, CO', zone: 'America/Denver', code: 'MST/MDT' },
+            { name: 'Atlanta, GA', zone: 'America/New_York', code: 'EST/EDT' },
+            { name: 'Dallas, TX', zone: 'America/Chicago', code: 'CST/CDT' },
+            { name: 'Seattle, WA', zone: 'America/Los_Angeles', code: 'PST/PDT' },
+            { name: 'Miami, FL', zone: 'America/New_York', code: 'EST/EDT' },
+            { name: 'Las Vegas, NV', zone: 'America/Los_Angeles', code: 'PST/PDT' },
+            { name: 'Anchorage, AK', zone: 'America/Anchorage', code: 'AKST/AKDT' },
+            { name: 'Honolulu, HI', zone: 'Pacific/Honolulu', code: 'HST' }
+        ];
+        
+        const auZones = [
+            { name: 'Sydney, NSW', zone: 'Australia/Sydney', code: 'AEST/AEDT' },
+            { name: 'Melbourne, VIC', zone: 'Australia/Melbourne', code: 'AEST/AEDT' },
+            { name: 'Brisbane, QLD', zone: 'Australia/Brisbane', code: 'AEST' },
+            { name: 'Adelaide, SA', zone: 'Australia/Adelaide', code: 'ACST/ACDT' },
+            { name: 'Perth, WA', zone: 'Australia/Perth', code: 'AWST' },
+            { name: 'Darwin, NT', zone: 'Australia/Darwin', code: 'ACST' },
+            { name: 'Hobart, TAS', zone: 'Australia/Hobart', code: 'AEST/AEDT' }
+        ];
+        
+        function createZoneCard(zone) {
+            const now = new Date();
+            
+            const timeStr = now.toLocaleString('en-GB', {
+                timeZone: zone.zone,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+            
+            const zoneTime = new Date(now.toLocaleString('en-US', { timeZone: zone.zone }));
+            const hour = zoneTime.getHours();
+            const isBusinessHours = hour >= 9 && hour < 17; // 9 AM to 5 PM
+            
+            // Simple calling window calculation
+            const homeTime = new Date(now.toLocaleString('en-US', { timeZone: homeTimezone }));
+            const homeHour = homeTime.getHours();
+            
+            // Calculate rough time difference
+            const zoneDiff = zoneTime.getHours() - homeTime.getHours();
+            const startCall = (9 - zoneDiff + 24) % 24;
+            const endCall = (17 - zoneDiff + 24) % 24;
+            
+            const formatTime = (h) => {
+                const hour = h % 24;
+                return hour.toString().padStart(2, '0') + ':00';
+            };
+            
+            const callingWindow = `${formatTime(startCall)} - ${formatTime(endCall)} your time`;
+            
+            const cardClass = isBusinessHours ? 'timezone-card good-call' : 'timezone-card outside-hours';
+            const statusClass = isBusinessHours ? 'status status-good' : 'status status-outside';
+            const statusText = isBusinessHours ? '📞 Good to Call Now' : '🌙 Outside Business Hours';
+            
+            return `
+                <div class="${cardClass}">
+                    <div class="location-name">${zone.name}</div>
+                    <div class="timezone-code">${zone.code}</div>
+                    <div class="time">${timeStr}</div>
+                    <div class="calling-window">Call between: ${callingWindow}</div>
+                    <span class="${statusClass}">${statusText}</span>
+                </div>
+            `;
+        }
+        
+        function updateAllTimes() {
+            // Update home time
+            const now = new Date();
+            const homeTime = now.toLocaleString('en-GB', {
+                timeZone: homeTimezone,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+            
+            document.getElementById('homeTime').textContent = `Your Time: ${homeTime}`;
+            document.getElementById('homeLocationDisplay').textContent = `📍 ${homeLocationName}`;
+            
+            // Update US zones
+            const usContainer = document.getElementById('us-zones');
+            usContainer.innerHTML = usZones.map(zone => createZoneCard(zone)).join('');
+            
+            // Update AU zones  
+            const auContainer = document.getElementById('au-zones');
+            auContainer.innerHTML = auZones.map(zone => createZoneCard(zone)).join('');
+        }
+        
+        // Handle dropdown change
+        document.getElementById('homeLocation').addEventListener('change', function() {
+            const value = this.value;
+            const parts = value.split('|');
+            homeTimezone = parts[0];
+            homeLocationName = parts[1];
+            updateAllTimes();
+        });
+        
+        // Initialize
+        updateAllTimes();
+        setInterval(updateAllTimes, 1000);
+    </script>
+</body>
+</html>
