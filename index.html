@@ -3,513 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Time Zone Dashboard</title>
+    <title>Global Time Dashboard</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; 
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
             color: #e5e5e5;
-            min-height: 100vh;
+            margin: 0;
             padding: 20px;
         }
-        
-        .container { 
-            max-width: 1400px; 
-            margin: 0 auto; 
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        
-        .header {
+        h1 {
             text-align: center;
-            margin-bottom: 40px;
-        }
-        
-        h1 { 
-            font-size: clamp(28px, 5vw, 42px); 
-            margin-bottom: 10px;
-            color: #f5f5f5;
-            font-weight: 600;
-            letter-spacing: -0.5px;
-        }
-        
-        .controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-        
-        .dropdown-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        select {
-            padding: 12px 16px;
-            border-radius: 8px;
-            border: 1px solid #404040;
-            background: #2a2a2a;
-            color: #e5e5e5;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            min-width: 200px;
-            transition: all 0.2s ease;
-        }
-        
-        select:focus {
-            outline: none;
-            border-color: #c2661f;
-            background: #333333;
-        }
-        
-        .subtitle {
-            font-size: 16px;
-            opacity: 0.8;
-            color: #b5b5b5;
-        }
-        
-        .country-section {
-            margin-bottom: 40px;
-        }
-        
-        .country-title {
-            font-size: clamp(20px, 3vw, 24px);
-            font-weight: 600;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #404040;
-            letter-spacing: -0.3px;
-        }
-        
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 16px; 
+            color: #c2661f;
             margin-bottom: 30px;
         }
-        
-        .timezone-card { 
-            background: #262626;
-            border: 1px solid #404040;
-            padding: 24px; 
-            border-radius: 12px; 
-            transition: all 0.2s ease;
+        .controls {
+            text-align: center;
+            margin-bottom: 30px;
         }
-        
-        .timezone-card:hover {
-            transform: translateY(-2px);
-            border-color: #525252;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-        }
-        
-        .home { 
-            border-color: #c2661f; 
-            background: linear-gradient(145deg, #2a2a2a, #333333);
-            box-shadow: 0 0 0 1px rgba(194,102,31,0.1);
-        }
-        
-        .good-call { 
-            border-color: #78716c; 
-            background: #262626;
-        }
-        
-        .outside-hours { 
-            border-color: #525252; 
-            background: #232323;
-        }
-        
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-        
-        .city-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .city-name {
-            font-size: 18px;
-            font-weight: 600;
-            color: #f5f5f5;
-            letter-spacing: -0.2px;
-        }
-        
-        .timezone-code {
-            font-size: 13px;
-            opacity: 0.7;
-            font-weight: 400;
-            color: #a3a3a3;
-        }
-        
-        .time { 
-            font-size: clamp(24px, 4vw, 32px); 
-            font-family: 'Courier New', monospace; 
-            font-weight: 600; 
-            margin: 16px 0;
-            color: #f5f5f5;
-            letter-spacing: -0.5px;
-        }
-        
-        .date {
-            color: #a3a3a3; 
-            margin-bottom: 16px; 
-            font-size: 14px;
-            font-weight: 500;
-        }
-        
-        .status { 
-            padding: 6px 12px; 
-            border-radius: 16px; 
-            font-size: 12px; 
-            font-weight: 600; 
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .status-home { 
-            background: #c2661f; 
-            color: #ffffff; 
-        }
-        
-        .status-good { 
-            background: #78716c; 
-            color: #ffffff; 
-        }
-        
-        .status-outside { 
-            background: #525252; 
-            color: #e5e5e5; 
-        }
-        
-        .current-time {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(38,38,38,0.95);
-            border: 1px solid #404040;
-            padding: 12px 18px;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            font-weight: 600;
+        select {
+            padding: 10px;
+            background: #2a2a2a;
             color: #e5e5e5;
-            z-index: 1000;
+            border: 1px solid #404040;
+            border-radius: 5px;
+            font-size: 16px;
         }
-        
-        .uk { color: #c2661f; }
-        .us { color: #a16207; }
-        .au { color: #92400e; }
-        .ca { color: #78716c; }
-        .eu { color: #a3a3a3; }
-        .as { color: #71717a; }
-
-        /* Mobile responsiveness */
-        @media (max-width: 768px) {
-            body {
-                padding: 15px;
-            }
-            
-            .current-time {
-                position: relative;
-                top: auto;
-                right: auto;
-                margin-bottom: 20px;
-                display: block;
-                text-align: center;
-            }
-            
-            .grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .controls {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            select {
-                min-width: 100%;
-                max-width: 300px;
-            }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
         }
-
-        /* Dark mode compatibility */
-        @media (prefers-color-scheme: dark) {
-            body {
-                color-scheme: dark;
-            }
+        .card {
+            background: #262626;
+            border: 1px solid #404040;
+            border-radius: 10px;
+            padding: 20px;
         }
+        .home {
+            border-color: #c2661f;
+            background: #2a2a2a;
+        }
+        .good {
+            border-color: #78716c;
+        }
+        .offline {
+            border-color: #525252;
+        }
+        .time {
+            font-size: 24px;
+            font-family: monospace;
+            margin: 10px 0;
+        }
+        .status {
+            background: #404040;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            display: inline-block;
+        }
+        .status-home { background: #c2661f; }
+        .status-good { background: #78716c; }
+        .status-offline { background: #525252; }
     </style>
 </head>
 <body>
-    <div class="current-time" id="currentTime"></div>
-    
     <div class="container">
-        <div class="header">
-            <h1>⏰ Global Time Dashboard</h1>
-            
-            <div class="controls">
-                <div class="dropdown-container">
-                    <label for="homeCountry" style="color: #a3a3a3; font-weight: 500;">🏠 Home Base:</label>
-                    <select id="homeCountry" onchange="changeHomeCountry()">
-                        <option value="uk">🇬🇧 United Kingdom</option>
-                        <option value="us">🇺🇸 United States</option>
-                        <option value="au">🇦🇺 Australia</option>
-                        <option value="ca">🇨🇦 Canada</option>
-                        <option value="eu">🇪🇺 Europe</option>
-                        <option value="as">🌏 Asia</option>
-                    </select>
-                </div>
-            </div>
-            
-            <p class="subtitle">Business Hours: 8:00 AM - 6:00 PM Local Time</p>
+        <h1>Global Time Dashboard</h1>
+        
+        <div class="controls">
+            <label for="home">Home Base: </label>
+            <select id="home" onchange="changeHome()">
+                <option value="Europe/London">🇬🇧 United Kingdom</option>
+                <option value="America/New_York">🇺🇸 United States</option>
+                <option value="Australia/Sydney">🇦🇺 Australia</option>
+            </select>
         </div>
         
-        <div id="timezone-sections">
-            <!-- Sections will be populated by JavaScript -->
+        <div class="grid" id="timezones">
+            <!-- Cards will appear here -->
         </div>
     </div>
 
     <script>
-        (function() {
-            'use strict';
+        let homeZone = 'Europe/London';
+        
+        const zones = [
+            { name: 'London', zone: 'Europe/London', flag: '🇬🇧' },
+            { name: 'New York', zone: 'America/New_York', flag: '🇺🇸' },
+            { name: 'Los Angeles', zone: 'America/Los_Angeles', flag: '🌴' },
+            { name: 'Sydney', zone: 'Australia/Sydney', flag: '🇦🇺' },
+            { name: 'Tokyo', zone: 'Asia/Tokyo', flag: '🇯🇵' },
+            { name: 'Dubai', zone: 'Asia/Dubai', flag: '🇦🇪' }
+        ];
+        
+        function changeHome() {
+            homeZone = document.getElementById('home').value;
+            updateTimes();
+        }
+        
+        function updateTimes() {
+            const container = document.getElementById('timezones');
+            container.innerHTML = '';
             
-            let currentHomeCountry = 'uk';
-            let homeTimezone = 'Europe/London';
-
-            const countries = {
-                uk: {
-                    name: '🇬🇧 United Kingdom',
-                    homeZone: 'Europe/London',
-                    zones: [
-                        { name: 'London', zone: 'Europe/London', code: 'GMT/BST', flag: '🇬🇧' }
-                    ]
-                },
-                us: {
-                    name: '🇺🇸 United States',
-                    homeZone: 'America/New_York',
-                    zones: [
-                        { name: 'New York', zone: 'America/New_York', code: 'EST/EDT', flag: '🏙️' },
-                        { name: 'Chicago', zone: 'America/Chicago', code: 'CST/CDT', flag: '🌆' },
-                        { name: 'Denver', zone: 'America/Denver', code: 'MST/MDT', flag: '🏔️' },
-                        { name: 'Los Angeles', zone: 'America/Los_Angeles', code: 'PST/PDT', flag: '🌴' },
-                        { name: 'Phoenix', zone: 'America/Phoenix', code: 'MST', flag: '🌵' },
-                        { name: 'Anchorage', zone: 'America/Anchorage', code: 'AKST/AKDT', flag: '🐻' },
-                        { name: 'Honolulu', zone: 'Pacific/Honolulu', code: 'HST', flag: '🌺' }
-                    ]
-                },
-                au: {
-                    name: '🇦🇺 Australia',
-                    homeZone: 'Australia/Sydney',
-                    zones: [
-                        { name: 'Sydney', zone: 'Australia/Sydney', code: 'AEST/AEDT', flag: '🏛️' },
-                        { name: 'Melbourne', zone: 'Australia/Melbourne', code: 'AEST/AEDT', flag: '☕' },
-                        { name: 'Brisbane', zone: 'Australia/Brisbane', code: 'AEST', flag: '🌞' },
-                        { name: 'Adelaide', zone: 'Australia/Adelaide', code: 'ACST/ACDT', flag: '🍷' },
-                        { name: 'Perth', zone: 'Australia/Perth', code: 'AWST', flag: '🦘' },
-                        { name: 'Darwin', zone: 'Australia/Darwin', code: 'ACST', flag: '🐊' },
-                        { name: 'Hobart', zone: 'Australia/Hobart', code: 'AEST/AEDT', flag: '🍎' }
-                    ]
-                },
-                ca: {
-                    name: '🇨🇦 Canada',
-                    homeZone: 'America/Toronto',
-                    zones: [
-                        { name: 'Toronto', zone: 'America/Toronto', code: 'EST/EDT', flag: '🏙️' },
-                        { name: 'Montreal', zone: 'America/Montreal', code: 'EST/EDT', flag: '🍁' },
-                        { name: 'Vancouver', zone: 'America/Vancouver', code: 'PST/PDT', flag: '🏔️' },
-                        { name: 'Calgary', zone: 'America/Edmonton', code: 'MST/MDT', flag: '🛢️' },
-                        { name: 'Winnipeg', zone: 'America/Winnipeg', code: 'CST/CDT', flag: '❄️' },
-                        { name: 'Halifax', zone: 'America/Halifax', code: 'AST/ADT', flag: '🦞' },
-                        { name: 'St. Johns', zone: 'America/St_Johns', code: 'NST/NDT', flag: '🐧' }
-                    ]
-                },
-                eu: {
-                    name: '🇪🇺 Europe',
-                    homeZone: 'Europe/London',
-                    zones: [
-                        { name: 'London', zone: 'Europe/London', code: 'GMT/BST', flag: '🇬🇧' },
-                        { name: 'Paris', zone: 'Europe/Paris', code: 'CET/CEST', flag: '🇫🇷' },
-                        { name: 'Berlin', zone: 'Europe/Berlin', code: 'CET/CEST', flag: '🇩🇪' },
-                        { name: 'Rome', zone: 'Europe/Rome', code: 'CET/CEST', flag: '🇮🇹' },
-                        { name: 'Madrid', zone: 'Europe/Madrid', code: 'CET/CEST', flag: '🇪🇸' },
-                        { name: 'Amsterdam', zone: 'Europe/Amsterdam', code: 'CET/CEST', flag: '🇳🇱' },
-                        { name: 'Stockholm', zone: 'Europe/Stockholm', code: 'CET/CEST', flag: '🇸🇪' },
-                        { name: 'Moscow', zone: 'Europe/Moscow', code: 'MSK', flag: '🇷🇺' }
-                    ]
-                },
-                as: {
-                    name: '🌏 Asia',
-                    homeZone: 'Asia/Tokyo',
-                    zones: [
-                        { name: 'Tokyo', zone: 'Asia/Tokyo', code: 'JST', flag: '🇯🇵' },
-                        { name: 'Singapore', zone: 'Asia/Singapore', code: 'SGT', flag: '🇸🇬' },
-                        { name: 'Hong Kong', zone: 'Asia/Hong_Kong', code: 'HKT', flag: '🇭🇰' },
-                        { name: 'Mumbai', zone: 'Asia/Kolkata', code: 'IST', flag: '🇮🇳' },
-                        { name: 'Dubai', zone: 'Asia/Dubai', code: 'GST', flag: '🇦🇪' },
-                        { name: 'Bangkok', zone: 'Asia/Bangkok', code: 'ICT', flag: '🇹🇭' },
-                        { name: 'Seoul', zone: 'Asia/Seoul', code: 'KST', flag: '🇰🇷' },
-                        { name: 'Beijing', zone: 'Asia/Shanghai', code: 'CST', flag: '🇨🇳' }
-                    ]
-                }
-            };
-
-            window.changeHomeCountry = function() {
-                const select = document.getElementById('homeCountry');
-                currentHomeCountry = select.value;
-                homeTimezone = countries[currentHomeCountry].homeZone;
-                updateDisplay();
-            };
-
-            function updateCurrentTime() {
+            zones.forEach(z => {
                 const now = new Date();
-                const homeTime = now.toLocaleString('en-GB', {
-                    timeZone: homeTimezone,
-                    weekday: 'short',
-                    day: 'numeric',
-                    month: 'short',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit'
-                });
-                const currentTimeEl = document.getElementById('currentTime');
-                if (currentTimeEl) {
-                    currentTimeEl.textContent = 'Home: ' + homeTime;
-                }
-            }
-
-            function createTimeZoneCard(tz, isHome) {
-                isHome = isHome || false;
-                const now = new Date();
-                
-                const timeStr = now.toLocaleString('en-GB', {
-                    timeZone: tz.zone,
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit',
+                const time = now.toLocaleTimeString('en-GB', {
+                    timeZone: z.zone,
                     hour12: false
                 });
                 
-                const dateStr = now.toLocaleDateString('en-GB', {
-                    timeZone: tz.zone,
-                    weekday: 'short',
-                    day: 'numeric',
-                    month: 'short'
-                });
-
-                const zoneTime = new Date(now.toLocaleString('en-US', { timeZone: tz.zone }));
-                const hour = zoneTime.getHours();
-                const isGoodTime = hour >= 8 && hour < 18;
-
-                let cardClass = 'timezone-card ';
+                const zoneDate = new Date(now.toLocaleString('en-US', { timeZone: z.zone }));
+                const hour = zoneDate.getHours();
+                const isGood = hour >= 8 && hour < 18;
+                const isHome = z.zone === homeZone;
+                
+                let cardClass = 'card ';
                 let statusClass = 'status ';
                 let statusText = '';
-                let icon = '';
-
+                
                 if (isHome) {
                     cardClass += 'home';
                     statusClass += 'status-home';
                     statusText = 'Home';
-                    icon = '●';
-                } else if (isGoodTime) {
-                    cardClass += 'good-call';
+                } else if (isGood) {
+                    cardClass += 'good';
                     statusClass += 'status-good';
                     statusText = 'Available';
-                    icon = '●';
                 } else {
-                    cardClass += 'outside-hours';
-                    statusClass += 'status-outside';
+                    cardClass += 'offline';
+                    statusClass += 'status-offline';
                     statusText = 'Offline';
-                    icon = '●';
                 }
-
-                return '<div class="' + cardClass + '">' +
-                    '<div class="card-header">' +
-                        '<div class="city-info">' +
-                            '<span style="font-size: 20px;">' + tz.flag + '</span>' +
-                            '<div>' +
-                                '<div class="city-name">' + tz.name + '</div>' +
-                                '<div class="timezone-code">' + tz.code + '</div>' +
-                            '</div>' +
-                        '</div>' +
-                    '</div>' +
-                    '<div class="time">' + timeStr + '</div>' +
-                    '<div class="date">' + dateStr + '</div>' +
-                    '<span class="' + statusClass + '">' +
-                        icon + ' ' + statusText +
-                    '</span>' +
-                '</div>';
-            }
-
-            function updateDisplay() {
-                const sectionsContainer = document.getElementById('timezone-sections');
-                if (!sectionsContainer) return;
                 
-                sectionsContainer.innerHTML = '';
-
-                const countryKeys = Object.keys(countries);
-                const countryOrder = [currentHomeCountry].concat(countryKeys.filter(function(c) { 
-                    return c !== currentHomeCountry; 
-                }));
+                const card = document.createElement('div');
+                card.className = cardClass;
+                card.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span>${z.flag} ${z.name}</span>
+                    </div>
+                    <div class="time">${time}</div>
+                    <span class="${statusClass}">${statusText}</span>
+                `;
                 
-                countryOrder.forEach(function(countryCode) {
-                    const country = countries[countryCode];
-                    const isHomeCountry = countryCode === currentHomeCountry;
-                    
-                    const section = document.createElement('div');
-                    section.className = 'country-section';
-                    
-                    const title = document.createElement('h2');
-                    title.className = 'country-title ' + countryCode;
-                    title.textContent = country.name + (isHomeCountry ? ' (Home Base)' : '');
-                    
-                    const grid = document.createElement('div');
-                    grid.className = 'grid';
-                    
-                    country.zones.forEach(function(tz) {
-                        const isHomeZone = isHomeCountry && tz.zone === homeTimezone;
-                        grid.innerHTML += createTimeZoneCard(tz, isHomeZone);
-                    });
-                    
-                    section.appendChild(title);
-                    section.appendChild(grid);
-                    sectionsContainer.appendChild(section);
-                });
-            }
-
-            // Initialize when DOM is ready
-            function init() {
-                updateCurrentTime();
-                updateDisplay();
-                
-                // Update every second
-                setInterval(updateCurrentTime, 1000);
-                setInterval(updateDisplay, 1000);
-            }
-
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', init);
-            } else {
-                init();
-            }
-        })();
+                container.appendChild(card);
+            });
+        }
+        
+        // Start the app
+        updateTimes();
+        setInterval(updateTimes, 1000);
     </script>
 </body>
 </html>
